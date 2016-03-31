@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <description>spring root context config</description>
+
+    <!--depends-on="rootSpringUtil"-->
+    <!--<bean id="userService" class="com.gpengtao.service.UserService" lazy-init="false"/>-->
+
+    <bean id="rootSpringUtil" class="com.gpengtao.utils.RootSpringUtil"/>
+
+    <bean id="hello" class="com.gpengtao.service.SayHelloService" init-method="init" destroy-method="release"/>
+
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>messages</value>
+                <value>errorcodes</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="appEventListener" class="com.gpengtao.listener.AppEventListener"/>
+
+    <!--注册4个Annotation BeanPostProcessor-->
+    <!--<context:annotation-config/>-->
+
+    <!--默认会开启annotation-config，设置annotation-config="false"关闭默认开启-->
+    <context:component-scan base-package="com.gpengtao.service" annotation-config="true"/>
+
+    <context:property-placeholder location="classpath:spring.properties"/>
+
+    <bean class="com.gpengtao.listener.SpringContextRefreshListener"/>
+</beans>

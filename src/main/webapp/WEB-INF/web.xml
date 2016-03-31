@@ -1,0 +1,143 @@
+<web-app version="2.4"
+         xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:web-appxmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+	http://java.sun.com/xml/ns/j2ee/web-app_2_5.xsd">
+
+    <display-name>gpt_file_server</display-name>
+
+    <!--这个参数给ContextLoaderListener用，多个文件时候都会被读取-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:root-context.xml</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>gptParam</param-name>
+        <param-value>helloWorld</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>com.gpengtao.web.listener.GPTContextListener</listener-class>
+    </listener>
+
+    <!--spring mvc dispatcher servlet-->
+    <servlet>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>3</load-on-startup>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/gpt-mvc-dispatcher-servlet.xml</param-value>
+        </init-param>
+        <init-param>
+            <param-name>detectAllHandlerMappings</param-name>
+            <param-value>true</param-value>
+            <!--默认就是true-->
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <url-pattern>/gpengtao/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>mvc-dispatcher2</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>3</load-on-startup>
+        <init-param>
+            <param-name>contextClass</param-name>
+            <param-value>
+                org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+            </param-value>
+        </init-param>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>com.gpengtao.web.config.MyWebConfig</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>mvc-dispatcher2</servlet-name>
+        <url-pattern>/gpengtao2/*</url-pattern>
+    </servlet-mapping>
+
+    <!--show time servlet-->
+    <servlet>
+        <servlet-name>showTime</servlet-name>
+        <servlet-class>com.gpengtao.servlet.ShowTimeServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>showTime</servlet-name>
+        <url-pattern>/time/*</url-pattern>
+    </servlet-mapping>
+
+    <!--占用default servlet的自定义servlet-->
+    <servlet>
+        <servlet-name>index</servlet-name>
+        <servlet-class>com.gpengtao.servlet.IndexServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>index</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <!--test servlet-->
+    <servlet>
+        <servlet-name>test</servlet-name>
+        <servlet-class>com.gpengtao.servlet.TestServlet</servlet-class>
+        <init-param>
+            <param-name>namespace-gpt-test</param-name>
+            <param-value>gpt-test-servlet-namespace</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>test</servlet-name>
+        <url-pattern>/testServlet/</url-pattern>
+    </servlet-mapping>
+
+    <!--logback查看日志状态servlet-->
+    <servlet>
+        <servlet-name>ViewStatusMessages</servlet-name>
+        <servlet-class>ch.qos.logback.classic.ViewStatusMessagesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewStatusMessages</servlet-name>
+        <url-pattern>/lbClassicStatus</url-pattern>
+    </servlet-mapping>
+
+    <!--default servlet mapping 定义-->
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/hello.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/favicon.ico</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>hello.html</welcome-file>
+    </welcome-file-list>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/500.jsp</location>
+    </error-page>
+
+    <error-page>
+        <exception-type>java.lang.NullPointerException</exception-type>
+        <location>/nullPointerError.jsp</location>
+    </error-page>
+</web-app>

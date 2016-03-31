@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true" scanPeriod="30 seconds">
+
+    <!-- 设置log context name -->
+    <contextName>gpengtao-log-context</contextName>
+
+    <!-- 状态监听器，状态变化信息输入到console，功能类似于开启configuration的debug -->
+    <!--<statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>-->
+
+    <property name="LOG_DIR" value="${catalina.base}/logs"/>
+
+    <property name="encoding" value="utf8"/>
+
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
+
+    <!-- name,class属性必需 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- deny all events with a level below INFO, that is TRACE and DEBUG -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+
+        <!-- encoders 默认实现类是 ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+        <encoder>
+            <!-- [LOG_DIR=${LOG_DIR}] [${HOSTNAME}] [${CONTEXT_NAME}] -->
+
+            <!--% logger{长度}，指定了logger的显示长度，从包结构的最右侧匹配（最后的类名除外，都会显示），
+            如果在长度内就显示全称，否则取首字母缩写。这个参数只会缩写包结构不会truncate字母-->
+
+            <!-- %-5.10level,指定了显示的长度限制5-10，小于5右侧补充空格，大于10左侧truncate。 -->
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5.10level %logger{100}.%M:%L - %msg%n</pattern>
+            <charset>${encoding}</charset>
+        </encoder>
+    </appender>
+
+    <appender name="MY_LOG" class="ch.qos.logback.core.FileAppender">
+        <file>${LOG_DIR}/myApp-${bySecond}.log</file>
+        <!-- 是否审慎的记日志，默认false，设置true则使用文件锁，效率会变低。适用于 multiple-JVM writing to the same log file -->
+        <prudent>false</prudent>
+        <!-- 是否追加，默认true -->
+        <Append>true</Append>
+        <encoder>
+            <!-- 是否立刻flush到文件，false提高日志吞吐量,默认true -->
+            <immediateFlush>true</immediateFlush>
+            <pattern>%date %level [%thread] %logger{2}:%line %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="MY_ROLLING_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--By setting the file property you can decouple the location of the active log file and the location of
+        the archived log files.-->
+        <!--指定日志名字，这样每次滚动之后也还是这个名字-->
+        <file>${LOG_DIR}/myAppRolling.log</file>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{2}:%line %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 要被归档的日志文件名字，以.gz/.zip结尾会被压缩 -->
+            <fileNamePattern>${LOG_DIR}/myAppArchive.%d{yyyy-MM-dd_HH-mm}.log.gz</fileNamePattern>
+            <maxHistory>2</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="MY_ROLLING_WINDOW_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/myAppRollingWindow.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/myAppRollingWindow.%i.log</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>3</maxIndex>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>1</maxFileSize>
+        </triggeringPolicy>
+        <encoder>
+            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/mylog.txt</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_DIR}/mylog-%d{yyyy-MM-dd_HH-mm}.%i.txt</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches specified size -->
+                <maxFileSize>1kb</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%-4relative %red([%thread]) %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+        <!--结果例子：-->
+        <!--mylog-2015-02-27_22-59.0.txt-->
+        <!--mylog-2015-02-27_23-00.0.txt-->
+        <!--mylog-2015-02-27_23-00.1.txt-->
+        <!--mylog-2015-02-27_23-00.2.txt-->
+        <!--mylog-2015-02-27_23-00.3.txt-->
+        <!--mylog.txt-->
+    </appender>
+
+    <!-- name 属性必须；level 属性可选，日志等级；additivity 属性可选，appender的累加性，如果false则不accumulate父辈们的appender -->
+    <logger name="com.gpengtao.web.controller.LogTestController" level="info" additivity="true"/>
+
+    <logger name="com.gpengtao.web.controller" additivity="TRUE">
+        <appender-ref ref="MY_LOG"/>
+    </logger>
+
+    <!-- 只有一个可选属性level，默认debug -->
+    <root level="debug">
+        <appender-ref ref="STDOUT"/>
+        <!--<appender-ref ref="MY_LOG"/>-->
+        <!--<appender-ref ref="MY_ROLLING_LOG"/>-->
+        <!--<appender-ref ref="MY_ROLLING_WINDOW_LOG"/>-->
+        <!--<appender-ref ref="ROLLING"/>-->
+    </root>
+</configuration>
