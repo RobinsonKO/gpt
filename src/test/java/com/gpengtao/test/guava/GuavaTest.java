@@ -1,6 +1,7 @@
 package com.gpengtao.test.guava;
 
 import com.google.common.base.Predicate;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import org.junit.Test;
@@ -26,5 +27,11 @@ public class GuavaTest {
         });
 
         System.out.println(list);
+    }
+
+    @Test
+    public void test_split_empty_string() {
+        Iterable<String> split = Splitter.on(",").split("");
+        System.out.println(split);
     }
 }
