@@ -16,7 +16,6 @@ public class GuavaTest {
     public void test_Iterable() {
         List<Integer> list = Lists.newArrayList(0, 1, 9, 2, 0, 2, 8, 7, 1, 2, 10, 3, 4);
         Iterables.removeIf(list, new Predicate<Integer>() {
-
             public boolean apply(Integer input) {
                 if (input > 3 || input < 2) {
                     return true;
