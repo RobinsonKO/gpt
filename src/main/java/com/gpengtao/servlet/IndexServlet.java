@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Created by gpengtao on 4/5/15.
@@ -23,6 +23,12 @@ public class IndexServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("visit IndexServlet,url：{}", req.getRequestURL());
+
+        Map map = req.getParameterMap();
+        // map.put("hello", "world"); // 会报错，parameterMap不能修改
+
+        System.out.println(req.getParameter("hello"));
+
         PrintWriter writer = resp.getWriter();
         writer.write("IndexServlet " + new Date());
     }

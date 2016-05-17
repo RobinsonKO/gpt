@@ -2,8 +2,7 @@ package com.gpengtao.test.guava;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
+import com.google.common.collect.*;
 import org.junit.Test;
 
 import java.util.List;
@@ -34,5 +33,33 @@ public class GuavaTest {
     public void test_split_empty_string() {
         Iterable<String> split = Splitter.on(",").split("");
         System.out.println(split);
+    }
+
+    @Test
+    public void test_split() {
+        String str = "a|b|c";
+
+        String[] split = str.split("\\|");
+        for (String s : split) {
+            System.out.println(s);
+        }
+    }
+
+    @Test
+    public void test_multi_map() {
+        Ordering<String> natural = Ordering.natural();
+        TreeMultimap<String, String> treeMultiMap = TreeMultimap.create(natural, natural);
+
+        treeMultiMap.put("3", "b");
+        treeMultiMap.put("3", "a");
+
+        treeMultiMap.put("1", "a");
+        treeMultiMap.put("1", "c");
+        treeMultiMap.put("1", "b");
+
+        treeMultiMap.put("2", "a");
+        treeMultiMap.put("2", "b");
+
+        System.out.println(treeMultiMap);
     }
 }
