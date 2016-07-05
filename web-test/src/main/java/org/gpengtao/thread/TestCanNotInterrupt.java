@@ -14,11 +14,11 @@ public class TestCanNotInterrupt {
 
         Thread.sleep(1000);
 
-        System.out.println("线程状态：" + serverThread.getState());
+        System.out.println("线程状态" + serverThread.getState());
 
-        System.out.println("线程中断状态：" + serverThread.isInterrupted());
+        System.out.println("线程中断状态" + serverThread.isInterrupted());
         serverThread.interrupt();
-        System.out.println("线程中断状态：" + serverThread.isInterrupted());
+        System.out.println("线程中断状态" + serverThread.isInterrupted());
 
         serverThread.closeSocket();
 

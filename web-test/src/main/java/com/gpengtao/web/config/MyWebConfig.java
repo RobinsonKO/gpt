@@ -15,7 +15,7 @@ public class MyWebConfig {
     private final Logger logger = LoggerFactory.getLogger(MyWebConfig.class);
 
     public MyWebConfig() {
-        logger.info("加载MyWebConfig的配置");
+        logger.info("加载");
     }
 
     @Bean

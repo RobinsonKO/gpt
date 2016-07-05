@@ -18,11 +18,9 @@ public class GPTContextListener implements ServletContextListener {
 
     private static final Logger logger = LoggerFactory.getLogger(GPTContextListener.class);
 
-    @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         logger.info("gpt context listener: init ...");
 
-        // 查看servlet context是什么实现
         ServletContext servletContext = servletContextEvent.getServletContext();
         logger.info("servlet context 是：{}", servletContext);
 
@@ -47,7 +45,6 @@ public class GPTContextListener implements ServletContextListener {
         logger.info("servlet context path 是：{}", servletContext.getContextPath());
     }
 
-    @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         logger.info("gpt context listener: destroy ...");
     }
