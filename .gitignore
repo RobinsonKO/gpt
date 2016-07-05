@@ -33,3 +33,5 @@ Thumbs.db
 #maven project 
 catalina.base_IS_UNDEFINED/
 *.orig
+
+~

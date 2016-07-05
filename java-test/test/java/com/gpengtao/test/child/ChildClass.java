@@ -1,4 +1,4 @@
-package com.gpengtao.test.java.test;
+package com.gpengtao.test.child;
 
 /**
  * Created by pengtao.geng on 2016/4/22.

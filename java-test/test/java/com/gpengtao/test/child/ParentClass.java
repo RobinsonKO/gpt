@@ -1,11 +1,11 @@
-package com.gpengtao.test.java.test;
+package com.gpengtao.test.child;
 
 /**
  * Created by pengtao.geng on 2016/4/22.
  */
 public abstract class ParentClass {
 
-    public String getName() {
+    public String getClassName() {
         return this.getClass().getName();
     }
 }
