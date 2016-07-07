@@ -1,6 +1,6 @@
 package com.gpengtao.test.other;
 
-import com.gpengtao.utils.RootSpringUtil;
+import com.gpengtao.json.RootSpringUtil;
 import org.junit.Test;
 
 import java.net.URL;

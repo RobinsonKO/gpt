@@ -12,7 +12,7 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <bean id="childSpringUtil" class="com.gpengtao.utils.ChildSpringUtil"/>
+    <bean id="childSpringUtil" class="com.gpengtao.json.ChildSpringUtil"/>
 
     <bean id="hehe" class="com.gpengtao.service.SayHeHeService"/>
 

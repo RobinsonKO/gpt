@@ -10,6 +10,8 @@
     <modules>
         <module>java-test</module>
         <module>web-test</module>
+        <module>utils</module>
+        <module>json-test</module>
     </modules>
 
     <name>gpt-learn</name>
@@ -19,7 +21,6 @@
     </properties>
     
     <build>
-        <finalName>gpt-learn</finalName>
     </build>
 
 </project>

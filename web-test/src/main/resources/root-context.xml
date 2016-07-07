@@ -9,7 +9,7 @@
     <!--depends-on="rootSpringUtil"-->
     <!--<bean id="userService" class="com.gpengtao.service.UserService" lazy-init="false"/>-->
 
-    <bean id="rootSpringUtil" class="com.gpengtao.utils.RootSpringUtil"/>
+    <bean id="rootSpringUtil" class="com.gpengtao.json.RootSpringUtil"/>
 
     <bean id="hello" class="com.gpengtao.service.SayHelloService" init-method="init" destroy-method="release"/>
 
