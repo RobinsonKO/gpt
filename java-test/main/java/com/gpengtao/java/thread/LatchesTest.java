@@ -1,4 +1,4 @@
-package org.gpengtao.thread;
+package com.gpengtao.java.thread;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -10,7 +10,7 @@ public class LatchesTest {
         CountDownLatch latch = new CountDownLatch(2);
 
         loadingUserOne(latch);
-        loadingUsserTwo(latch);
+        loadingUserTwo(latch);
 
         try {
             latch.await();
@@ -21,7 +21,7 @@ public class LatchesTest {
 
     }
 
-    private static void loadingUsserTwo(final CountDownLatch latch) {
+    private static void loadingUserTwo(final CountDownLatch latch) {
         new Thread() {
             public void run() {
                 try {

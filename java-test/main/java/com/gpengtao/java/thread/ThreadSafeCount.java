@@ -1,8 +1,9 @@
-package org.gpengtao.thread;
+package com.gpengtao.java.thread;
 
-
-public class ThreadNotSafeCount implements Runnable {
-
+/**
+ * Created by gpengtao on 14-10-15.
+ */
+public class ThreadSafeCount implements Runnable {
     private int count = 0;
 
     @Override
@@ -13,8 +14,12 @@ public class ThreadNotSafeCount implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            count++;
+            increase();
         }
+    }
+
+    synchronized public void increase() {
+        count++;
     }
 
     public int getCount() {

@@ -1,4 +1,4 @@
-package org.gpengtao.thread;
+package com.gpengtao.java.thread;
 
 import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;

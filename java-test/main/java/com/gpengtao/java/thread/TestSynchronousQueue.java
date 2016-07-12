@@ -1,4 +1,4 @@
-package org.gpengtao.thread;
+package com.gpengtao.java.thread;
 
 import java.lang.management.ManagementFactory;
 import java.util.concurrent.SynchronousQueue;

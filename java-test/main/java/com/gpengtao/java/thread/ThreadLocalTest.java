@@ -1,4 +1,4 @@
-package org.gpengtao.thread;
+package com.gpengtao.java.thread;
 
 /**
  * Created by gpengtao on 15-1-14.
