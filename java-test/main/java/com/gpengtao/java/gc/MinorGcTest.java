@@ -1,11 +1,11 @@
 package com.gpengtao.java.gc;
 
 /**
- * -XX:+UseSerialGC -XX:SurvivorRatio=8 -Xms20M -Xmx20M -Xmn10M -verbose:gc -XX:+PrintGCDetails
+ * -XX:+UseSerialGC -XX:SurvivorRatio=8 -Xms20M -Xmx20M -Xmn10M -XX:+PrintGCDetails
  * <p>
  * Created by gpengtao on 16/7/12.
  */
-public class GcTest {
+public class MinorGcTest {
 
     private static final int size = 1024 * 1024;
 
