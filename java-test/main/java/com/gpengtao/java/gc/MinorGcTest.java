@@ -7,13 +7,13 @@ package com.gpengtao.java.gc;
  */
 public class MinorGcTest {
 
-    private static final int size = 1024 * 1024;
+    private static final int _1M_SIZE = 1024 * 1024;
 
     public static void main(String[] args) throws InterruptedException {
-        byte[] allocation1 = new byte[2 * size];
-        byte[] allocation2 = new byte[2 * size];
-        byte[] allocation3 = new byte[2 * size];
-        byte[] allocation4 = new byte[4 * size];
+        byte[] allocation1 = new byte[2 * _1M_SIZE];
+        byte[] allocation2 = new byte[2 * _1M_SIZE];
+        byte[] allocation3 = new byte[2 * _1M_SIZE];
+        byte[] allocation4 = new byte[4 * _1M_SIZE];
 
         System.out.println(allocation1);
         System.out.println(allocation2);

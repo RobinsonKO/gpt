@@ -8,10 +8,10 @@ package com.gpengtao.java.gc;
  */
 public class BigObjAllocateInTenuredGenerationTest {
 
-    private static final int size = 1024 * 1024;
+    private static final int _1M_SIZE = 1024 * 1024;
 
     public static void main(String[] args) {
-        byte[] allocation = new byte[4 * size];
+        byte[] allocation = new byte[4 * _1M_SIZE];
 
         System.out.println("finish");
     }
