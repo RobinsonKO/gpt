@@ -1,5 +1,7 @@
 package com.gpengtao.java.test.child;
 
+import org.junit.Test;
+
 /**
  * Created by pengtao.geng on 2016/4/22.
  */
