@@ -1,6 +1,4 @@
-package com.gpengtao.java.test.child;
-
-import org.junit.Test;
+package com.gpengtao.java.inheritance;
 
 /**
  * Created by pengtao.geng on 2016/4/22.
@@ -13,10 +11,5 @@ public class MainTest {
         String name = obj.getClassName();
 
         System.out.println(name);
-    }
-
-    @Test
-    public void test() {
-
     }
 }
