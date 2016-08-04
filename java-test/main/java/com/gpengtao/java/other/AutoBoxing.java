@@ -5,7 +5,7 @@ package com.gpengtao.java.other;
  * <p>
  * Created by gpengtao on 16/7/27.
  */
-public class Auto111 {
+public class AutoBoxing {
 
     public static void main(String[] args) {
         Integer a = 1;
