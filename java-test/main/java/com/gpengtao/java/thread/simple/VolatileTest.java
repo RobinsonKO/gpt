@@ -11,7 +11,7 @@ public class VolatileTest {
         race++;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         for (int i = 0; i < 20; ++i) {
             new Thread(() -> {
                 for (int i1 = 0; i1 < 10000; ++i1) {
@@ -20,10 +20,12 @@ public class VolatileTest {
             }).start();
         }
 
-        while (Thread.activeCount() > 1) {
-            Thread.yield();
+        while (Thread.activeCount() > 2) {
+            System.out.println("now: " + race + " ,Thread.activeCount() :" + Thread.activeCount());
+
+            Thread.sleep(1000);
         }
 
-        System.out.println(race);
+        System.out.println("result: " + race);
     }
 }
