@@ -12,6 +12,7 @@
         <module>web-test</module>
         <module>utils</module>
         <module>json-test</module>
+        <module>mybatis-test</module>
     </modules>
 
     <name>gpt-learn</name>
