@@ -1,0 +1,10 @@
+
+1、配置generatorConfig.properties
+jdbc_driverPath     驱动jar包位置
+jdbc_url            指定到数据库
+jdbc_username       用户名
+jdbc_password       密码
+
+2、配置generatorConfig.xml
+table标签里面指定tableName和domainObjectName
+其他特殊设置
