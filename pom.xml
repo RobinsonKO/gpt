@@ -13,6 +13,7 @@
         <module>utils</module>
         <module>json-test</module>
         <module>web-capture</module>
+        <module>mybatis-test</module>
     </modules>
 
     <name>gpt-learn</name>
@@ -20,6 +21,16 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>19.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
