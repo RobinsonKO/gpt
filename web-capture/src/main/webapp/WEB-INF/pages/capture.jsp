@@ -6,10 +6,12 @@
 </head>
 <body>
 
-    <c:forEach var="url" items="${contents}">
-        ${url}
-        <br/>
-    </c:forEach>
+<script type="text/javascript" src="http://libs.useso.com/js/jquery/1.8.1/jquery.min.js"></script>
+
+<c:forEach var="url" items="${contents}">
+    ${url}
+    <br/>
+</c:forEach>
 
 </body>
 </html>

@@ -1,6 +1,13 @@
 package com.gpengtao.extract.service;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.io.ByteStreams;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.jsoup.Connection;
 import org.jsoup.Connection.Response;
 import org.jsoup.HttpStatusException;
@@ -10,7 +17,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.util.CollectionUtils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by gpengtao on 16/8/18.
@@ -51,7 +62,8 @@ public class CaptureService {
                 Elements imgages = contents.select("img");
 
                 for (Element element : imgages) {
-                    result.add(element.toString());
+                    String image = element.toString();
+                    result.add(image);
                 }
             }
         } catch (HttpStatusException e) {
@@ -60,5 +72,71 @@ public class CaptureService {
             t.printStackTrace();
         }
         return result;
+    }
+
+    public static Map<String, String> parseTag(String url) {
+        Map<String, String> result = Maps.newLinkedHashMap();
+
+        try {
+            Connection connect = Jsoup.connect(url);
+            Response response = connect.execute();
+
+            if (response.statusCode() == 200) {
+                Document document = response.parse();
+
+                Elements imgages = document.select("img");
+
+                for (Element element : imgages) {
+                    String src = element.attr("src");
+                    String alt = element.attr("alt");
+                    alt = alt.replace("“", "").replace(" ", "");
+                    alt = alt.substring(0, alt.indexOf("("));
+                    result.put(src, alt);
+                }
+            }
+        } catch (HttpStatusException e) {
+            System.out.println("error");
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        return result;
+    }
+
+    public static boolean download(String url, String fileName) {
+        url = url.replaceAll("!960.jpg", "");
+        fileName = fileName + "_" + url.substring(url.lastIndexOf("/") + 1);
+
+        fileName = "/Users/gpengtao/Downloads/11/" + fileName;
+
+        File file = new File(fileName);
+        if (file.exists()) {
+            System.out.println("file " + fileName + " had exist");
+            return false;
+        }
+
+        CloseableHttpResponse response = null;
+        try {
+            CloseableHttpClient httpclient = HttpClients.createDefault();
+
+            response = httpclient.execute(new HttpGet(url));
+
+            HttpEntity entity = response.getEntity();
+            InputStream content = entity.getContent();
+
+            ByteStreams.copy(content, new FileOutputStream(file));
+            return true;
+        } catch (Throwable t) {
+            t.printStackTrace();
+            return false;
+        } finally {
+
+            if (response != null) {
+                try {
+                    response.close();
+                } catch (Throwable t) {
+                    t.printStackTrace();
+                }
+            }
+        }
     }
 }
