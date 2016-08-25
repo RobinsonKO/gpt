@@ -24,6 +24,11 @@
                 <prop key="/simple">simpleController</prop>
             </props>
         </property>
+        <property name="interceptors">
+            <array>
+                <bean id="myInterceptor" class="com.gpengtao.web.MyInterceptor"/>
+            </array>
+        </property>
     </bean>
 
     <bean id="defaultAnnotationHandlerMapping"
