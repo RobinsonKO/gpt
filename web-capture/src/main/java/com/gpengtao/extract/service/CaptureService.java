@@ -90,7 +90,9 @@ public class CaptureService {
                     String src = element.attr("src");
                     String alt = element.attr("alt");
                     alt = alt.replace("“", "").replace(" ", "");
-                    alt = alt.substring(0, alt.indexOf("("));
+                    if (alt.contains("(")) {
+                        alt = alt.substring(0, alt.indexOf("("));
+                    }
                     result.put(src, alt);
                 }
             }
