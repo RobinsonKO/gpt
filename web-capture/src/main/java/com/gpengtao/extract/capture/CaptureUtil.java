@@ -1,4 +1,4 @@
-package com.gpengtao.extract.service;
+package com.gpengtao.extract.capture;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * Created by gpengtao on 16/8/18.
  */
-public class CaptureService {
+public class CaptureUtil {
 
     public static List<String> capture(String url) {
         List<String> result = doCapture(url);
