@@ -16,8 +16,8 @@
 
     <bean id="hehe" class="com.gpengtao.service.SayHeHeService"/>
 
+    <!--测试simpleUrlHandlerMapping-->
     <bean id="simpleController" class="com.gpengtao.web.controller.SimpleController"/>
-
     <bean id="simpleUrlHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <props>
