@@ -1,6 +1,6 @@
-package com.gpengtao.extract.web.controller;
+package com.gpengtao.web.controller.capture;
 
-import com.gpengtao.extract.capture.CaptureUtil;
+import com.gpengtao.capture.CaptureUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

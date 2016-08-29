@@ -1,4 +1,4 @@
-package com.gpengtao.extract.web.test;
+package com.gpengtao.web.controller.time;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +12,8 @@ import java.util.Date;
  * Created by pengtao.geng on 2016/8/29.
  */
 @RestController
-@RequestMapping("/test")
-public class HelloController {
+@RequestMapping("/time")
+public class TimeController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 

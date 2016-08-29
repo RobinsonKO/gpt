@@ -1,4 +1,4 @@
-package com.gpengtao.extract.capture;
+package com.gpengtao.capture;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;

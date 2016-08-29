@@ -15,10 +15,6 @@
     <artifactId>web-test</artifactId>
     <packaging>war</packaging>
 
-    <properties>
-        <spring.version>4.2.1.RELEASE</spring.version>
-    </properties>
-
     <dependencyManagement>
         <dependencies>
 
