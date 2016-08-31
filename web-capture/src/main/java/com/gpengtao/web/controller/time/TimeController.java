@@ -1,6 +1,7 @@
 package com.gpengtao.web.controller.time;
 
 import com.google.common.collect.Maps;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,14 +21,26 @@ public class TimeController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping(value = "/now")
-    public Map<String, Object> hello() {
+    public Map<String, Object> now() {
         logger.info("访问now接口");
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateString = format.format(new Date());
 
         Map<String, Object> map = Maps.newConcurrentMap();
-        map.put("hello", dateString);
+        map.put("现在时刻", dateString);
         return map;
     }
+
+    @RequestMapping(value = "/yesterday")
+    public Object yesterday() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date yesterday = DateUtils.addDays(new Date(), -1);
+        String str = format.format(yesterday);
+
+        String result = "<html><body><h1>" + "昨天是: " + str + "</h1></body></html>";
+
+        return result;
+    }
+
 }
