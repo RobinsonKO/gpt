@@ -17,8 +17,7 @@
         </encoder>
     </appender>
 
-    <!-- 只有一个可选属性level，默认debug -->
-    <root level="info">
+    <root level="debug">
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration>

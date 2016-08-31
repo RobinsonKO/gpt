@@ -32,15 +32,24 @@ public class TimeController {
         return map;
     }
 
-    @RequestMapping(value = "/yesterday")
+    @RequestMapping(value = "/yesterday", produces = {"text/html;charset=UTF-8"})
     public Object yesterday() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date yesterday = DateUtils.addDays(new Date(), -1);
         String str = format.format(yesterday);
 
-        String result = "<html><body><h1>" + "昨天是: " + str + "</h1></body></html>";
+        return "昨天是: " + str;
+    }
 
-        return result;
+    @RequestMapping(value = "/china")
+    public Object china() {
+        return "中国";
+    }
+
+    @RequestMapping(value = "/say")
+    public Object say(String message) {
+        logger.info("收到请求say:{}", message);
+        return "say " + message;
     }
 
 }
