@@ -13,11 +13,11 @@
     </bean>
 
     <mvc:annotation-driven>
-        <mvc:message-converters>
-            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
-                <constructor-arg value="utf-8"/>
-            </bean>
-        </mvc:message-converters>
+        <!--<mvc:message-converters>-->
+            <!--<bean class="org.springframework.http.converter.StringHttpMessageConverter">-->
+                <!--<constructor-arg value="utf-8"/>-->
+            <!--</bean>-->
+        <!--</mvc:message-converters>-->
     </mvc:annotation-driven>
 
     <mvc:interceptors>

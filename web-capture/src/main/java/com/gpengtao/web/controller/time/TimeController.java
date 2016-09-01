@@ -52,4 +52,15 @@ public class TimeController {
         return "say " + message;
     }
 
+    @RequestMapping(value = "/test", produces = {"application/json;charset=UTF-8"})
+    public Object test() {
+        long num = System.currentTimeMillis() % 2;
+        if (num == 0) {
+            return "偶数";
+        } else {
+            Map<String, String> map = Maps.newHashMap();
+            map.put("hello", "奇数");
+            return map;
+        }
+    }
 }
