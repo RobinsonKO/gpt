@@ -69,7 +69,7 @@ public class MainTest2 {
     private static Rule getRule1() {
         // condition
         Condition condition1 = new Condition();
-        condition1.setSnippet("model:Payment(model.getMoney() == 0)");
+        condition1.setSnippet("model:Payment(money == 0)");
 
         // consequence
         Consequence print1 = new Consequence();
@@ -90,7 +90,7 @@ public class MainTest2 {
     private static Rule getRule2() {
         // rule2
         Condition condition2 = new Condition();
-        condition2.setSnippet("model:Payment(model.getMoney() == 0)");
+        condition2.setSnippet("model:Payment(money == 0)");
 
         Consequence print2 = new Consequence();
         print2.setSnippet("System.out.println(\"hello 222 \" + model);");
