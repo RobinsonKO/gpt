@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -62,5 +63,13 @@ public class TimeController {
             map.put("hello", "奇数");
             return map;
         }
+    }
+
+    @RequestMapping(value = "/encoding")
+    public Object encoding(HttpServletRequest request) {
+        String name = request.getParameter("name");
+        logger.info("请求参数name是:{}", name);
+
+        return name;
     }
 }
