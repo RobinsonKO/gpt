@@ -18,4 +18,11 @@ public class Payment {
     public void setMoney(int money) {
         this.money = money;
     }
+
+    @Override
+    public String toString() {
+        return "Payment{" +
+                "money=" + money +
+                '}';
+    }
 }

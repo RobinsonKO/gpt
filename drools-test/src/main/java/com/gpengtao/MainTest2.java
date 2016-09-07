@@ -21,19 +21,13 @@ public class MainTest2 {
         Import imp = new Import();
         imp.setClassName(Payment.class.getName());
 
-        Condition condition = new Condition();
-        condition.setSnippet("model:Payment(model.getMoney() == 100)");
+        Rule rule1 = getRule1();
+        Rule rule2 = getRule2();
 
-        Consequence consequence = new Consequence();
-        consequence.setSnippet("System.out.println(\"hello\");");
-
-        Rule rule = new Rule("rule_1", null, 3);
-        rule.addCondition(condition);
-        rule.addConsequence(consequence);
-        rule.setComment("test");
-
+        // package
         Package rulePackage = new Package("gpt_template");
-        rulePackage.addRule(rule);
+        rulePackage.addRule(rule1);
+        rulePackage.addRule(rule2);
         rulePackage.addImport(imp);
 
         final DRLOutput out = new DRLOutput();
@@ -47,12 +41,13 @@ public class MainTest2 {
         KieModuleModel kieModuleModel = services.newKieModuleModel();
         KieFileSystem kieFileSystem = services.newKieFileSystem();
 
-        KieBaseModel baseModel = kieModuleModel.newKieBaseModel("kbase-rule_1");
+        KieBaseModel baseModel = kieModuleModel.newKieBaseModel("kie-base-rule");
         baseModel.addPackage("gpt_template");
         baseModel.newKieSessionModel("rule_1");
+        baseModel.newKieSessionModel("rule_2");
 
         kieFileSystem.writeKModuleXML(kieModuleModel.toXML());
-        kieFileSystem.write("src/main/resources/gpt_template/rule_1.drl",ResourceFactory.newByteArrayResource(drl.getBytes()));
+        kieFileSystem.write("src/main/resources/gpt_template/xxx.drl", ResourceFactory.newByteArrayResource(drl.getBytes()));
 
         KieBuilder kieBuilder = services.newKieBuilder(kieFileSystem);
         kieBuilder.buildAll();
@@ -61,10 +56,54 @@ public class MainTest2 {
 
         KieSession session = container.newKieSession("rule_1");
 
-        session.insert(new Payment(100));
+        Payment payment = new Payment(0);
+
+        session.insert(payment);
         session.fireAllRules();
 
         session.dispose();
+
+        System.out.println(payment);
+    }
+
+    private static Rule getRule1() {
+        // condition
+        Condition condition1 = new Condition();
+        condition1.setSnippet("model:Payment(model.getMoney() == 0)");
+
+        // consequence
+        Consequence print1 = new Consequence();
+        print1.setSnippet("System.out.println(\"hello 111 \" + model);");
+
+        Consequence add1 = new Consequence();
+        add1.setSnippet("model.setMoney(model.getMoney() + 100);");
+
+        // rule1
+        Rule rule1 = new Rule("rule_1", null, 3);
+        rule1.addCondition(condition1);
+        rule1.addConsequence(add1);
+        rule1.addConsequence(print1);
+        rule1.setComment("test");
+        return rule1;
+    }
+
+    private static Rule getRule2() {
+        // rule2
+        Condition condition2 = new Condition();
+        condition2.setSnippet("model:Payment(model.getMoney() == 0)");
+
+        Consequence print2 = new Consequence();
+        print2.setSnippet("System.out.println(\"hello 222 \" + model);");
+
+        Consequence add2 = new Consequence();
+        add2.setSnippet("model.setMoney(model.getMoney() + 200);");
+
+        Rule rule2 = new Rule("rule_2", null, 3);
+        rule2.addCondition(condition2);
+        rule2.addConsequence(add2);
+        rule2.addConsequence(print2);
+        rule2.setComment("test");
+        return rule2;
     }
 
 }
