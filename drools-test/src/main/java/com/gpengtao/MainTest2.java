@@ -79,7 +79,7 @@ public class MainTest2 {
         add1.setSnippet("model.setMoney(model.getMoney() + 100);");
 
         // rule1
-        Rule rule1 = new Rule("rule_1", null, 3);
+        Rule rule1 = new Rule("rule_1", 1, 3);
         rule1.addCondition(condition1);
         rule1.addConsequence(add1);
         rule1.addConsequence(print1);
@@ -98,7 +98,7 @@ public class MainTest2 {
         Consequence add2 = new Consequence();
         add2.setSnippet("model.setMoney(model.getMoney() + 200);");
 
-        Rule rule2 = new Rule("rule_2", null, 3);
+        Rule rule2 = new Rule("rule_2", 2, 3);
         rule2.addCondition(condition2);
         rule2.addConsequence(add2);
         rule2.addConsequence(print2);
