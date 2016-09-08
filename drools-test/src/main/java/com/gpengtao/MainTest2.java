@@ -25,7 +25,7 @@ public class MainTest2 {
         Rule rule2 = getRule2();
 
         // package
-        Package rulePackage = new Package("gpt_template");
+        Package rulePackage = new Package("com.gpengtao");
         rulePackage.addRule(rule1);
         rulePackage.addRule(rule2);
         rulePackage.addImport(imp);
@@ -41,20 +41,20 @@ public class MainTest2 {
         KieModuleModel kieModuleModel = services.newKieModuleModel();
         KieFileSystem kieFileSystem = services.newKieFileSystem();
 
+        // 一个container下多个modelModel，这个new多个就可以
         KieBaseModel baseModel = kieModuleModel.newKieBaseModel("kie-base-rule");
-        baseModel.addPackage("gpt_template");
-        baseModel.newKieSessionModel("rule_1");
-        baseModel.newKieSessionModel("rule_2");
+        baseModel.addPackage("com.gpengtao.file.drl");
+        baseModel.newKieSessionModel("rule_xxx");
 
         kieFileSystem.writeKModuleXML(kieModuleModel.toXML());
-        kieFileSystem.write("src/main/resources/gpt_template/xxx.drl", ResourceFactory.newByteArrayResource(drl.getBytes()));
+        kieFileSystem.write("src/main/resources/com.gpengtao.file.drl/xxx.drl", ResourceFactory.newByteArrayResource(drl.getBytes()));
 
         KieBuilder kieBuilder = services.newKieBuilder(kieFileSystem);
         kieBuilder.buildAll();
 
         KieContainer container = services.newKieContainer(services.getRepository().getDefaultReleaseId());
 
-        KieSession session = container.newKieSession("rule_1");
+        KieSession session = container.newKieSession("rule_xxx");
 
         Payment payment = new Payment(0);
 
