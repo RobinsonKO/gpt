@@ -4,6 +4,9 @@ import com.google.common.collect.Maps;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +22,21 @@ import java.util.Map;
 public class TimeController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @InitBinder
+    public void binder(WebDataBinder webDataBinder) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        CustomDateEditor customDateEditor = new CustomDateEditor(simpleDateFormat, true);
+
+        webDataBinder.registerCustomEditor(Date.class, customDateEditor);
+
+        logger.info("register editor");
+    }
+
+    @RequestMapping("/date")
+    public Object date(Date date) {
+        return "时间是:" + date;
+    }
 
     @RequestMapping(value = "/now")
     public Map<String, Object> now() {
