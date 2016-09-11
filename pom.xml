@@ -20,6 +20,7 @@
         <module>json-test</module>
         <module>web-capture</module>
         <module>mybatis-test</module>
+        <module>drools-test</module>
     </modules>
 
     <name>gpt-learn</name>

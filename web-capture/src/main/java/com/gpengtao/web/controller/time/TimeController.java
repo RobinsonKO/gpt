@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -70,4 +71,23 @@ public class TimeController {
         return "say " + message;
     }
 
+    @RequestMapping(value = "/test", produces = {"application/json;charset=UTF-8"})
+    public Object test() {
+        long num = System.currentTimeMillis() % 2;
+        if (num == 0) {
+            return "偶数";
+        } else {
+            Map<String, String> map = Maps.newHashMap();
+            map.put("hello", "奇数");
+            return map;
+        }
+    }
+
+    @RequestMapping(value = "/encoding")
+    public Object encoding(HttpServletRequest request) {
+        String name = request.getParameter("name");
+        logger.info("请求参数name是:{}", name);
+
+        return name;
+    }
 }
