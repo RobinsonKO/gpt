@@ -1,5 +1,6 @@
-package com.gpengtao;
+package com.gpengtao.test;
 
+import com.gpengtao.model.Payment;
 import org.drools.template.model.*;
 import org.drools.template.model.Package;
 import org.kie.api.KieServices;
@@ -12,12 +13,59 @@ import org.kie.api.runtime.KieSession;
 import org.kie.internal.io.ResourceFactory;
 
 /**
+ * generate drl string, and test
+ * <p>
  * Created by pengtao.geng on 2016/9/7.
  */
-public class MainTest2 {
+public class GenDrlTest {
 
     public static void main(String[] args) {
 
+        String drl = getPackage1();
+        String drl2 = getPackage2();
+
+        System.out.println(drl);
+        System.out.println(drl2);
+
+        KieServices services = KieServices.Factory.get();
+
+        KieModuleModel kieModuleModel = services.newKieModuleModel();
+        KieFileSystem kieFileSystem = services.newKieFileSystem();
+
+        // 一个container下多个modelModel，这个new多个就可以
+        KieBaseModel baseModel = kieModuleModel.newKieBaseModel("kie-base-rule");
+        baseModel.addPackage("com.gpengtao.file.drl");// 需要和src/main/resources下一致
+        baseModel.newKieSessionModel("rule_xxx");
+
+        KieBaseModel baseModel2 = kieModuleModel.newKieBaseModel("kie-base-rule2");
+        baseModel2.addPackage("com.gpengtao.file.drl2");
+        baseModel2.newKieSessionModel("rule_xxx2");
+
+        String moduleXml = kieModuleModel.toXML();
+        System.out.println(moduleXml);
+
+        kieFileSystem.writeKModuleXML(moduleXml);
+        kieFileSystem.write("src/main/resources/com.gpengtao.file.drl/xxx.drl", ResourceFactory.newByteArrayResource(drl.getBytes()));
+        kieFileSystem.write("src/main/resources/com.gpengtao.file.drl2/xxx.drl", ResourceFactory.newByteArrayResource(drl2.getBytes()));
+
+        KieBuilder kieBuilder = services.newKieBuilder(kieFileSystem);
+        kieBuilder.buildAll();
+
+        KieContainer container = services.newKieContainer(services.getRepository().getDefaultReleaseId());
+
+        KieSession session = container.newKieSession("rule_xxx2");
+
+        Payment payment = new Payment(0);
+
+        session.insert(payment);
+        session.fireAllRules();
+
+        session.dispose();
+
+        System.out.println(payment);
+    }
+
+    private static String getPackage1() {
         Import imp = new Import();
         imp.setClassName(Payment.class.getName());
 
@@ -32,38 +80,23 @@ public class MainTest2 {
 
         final DRLOutput out = new DRLOutput();
         rulePackage.renderDRL(out);
-        String drl = out.getDRL();
+        return out.getDRL();
+    }
 
-        System.out.println(drl);
+    private static String getPackage2() {
+        Import imp = new Import();
+        imp.setClassName(Payment.class.getName());
 
-        KieServices services = KieServices.Factory.get();
+        Rule rule1 = getRule1();
 
-        KieModuleModel kieModuleModel = services.newKieModuleModel();
-        KieFileSystem kieFileSystem = services.newKieFileSystem();
+        // package
+        Package rulePackage = new Package("com.gpengtao");
+        rulePackage.addRule(rule1);
+        rulePackage.addImport(imp);
 
-        // 一个container下多个modelModel，这个new多个就可以
-        KieBaseModel baseModel = kieModuleModel.newKieBaseModel("kie-base-rule");
-        baseModel.addPackage("com.gpengtao.file.drl");
-        baseModel.newKieSessionModel("rule_xxx");
-
-        kieFileSystem.writeKModuleXML(kieModuleModel.toXML());
-        kieFileSystem.write("src/main/resources/com.gpengtao.file.drl/xxx.drl", ResourceFactory.newByteArrayResource(drl.getBytes()));
-
-        KieBuilder kieBuilder = services.newKieBuilder(kieFileSystem);
-        kieBuilder.buildAll();
-
-        KieContainer container = services.newKieContainer(services.getRepository().getDefaultReleaseId());
-
-        KieSession session = container.newKieSession("rule_xxx");
-
-        Payment payment = new Payment(0);
-
-        session.insert(payment);
-        session.fireAllRules();
-
-        session.dispose();
-
-        System.out.println(payment);
+        final DRLOutput out = new DRLOutput();
+        rulePackage.renderDRL(out);
+        return out.getDRL();
     }
 
     private static Rule getRule1() {

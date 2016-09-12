@@ -1,4 +1,4 @@
-package com.gpengtao;
+package com.gpengtao.model;
 
 /**
  * Created by pengtao.geng on 2016/9/7.
