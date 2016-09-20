@@ -28,8 +28,15 @@
         </mvc:interceptor>
     </mvc:interceptors>
 
-    <!--<mvc:default-servlet-handler/>-->
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="customEditors">
+            <map>
+                <entry key="java.util.Date" value="com.gpengtao.custom.MyDateEditor"/>
+            </map>
+        </property>
+    </bean>
 
+    <!--<mvc:default-servlet-handler/>-->
 
 
 </beans>

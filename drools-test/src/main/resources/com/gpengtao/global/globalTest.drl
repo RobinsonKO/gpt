@@ -1,0 +1,13 @@
+package com.gpengtao.test;
+
+dialect  "java"
+
+global java.util.List myGlobalList;
+
+rule "Test global"
+    when
+        eval(true)
+    then
+        myGlobalList.add("hello");
+        System.out.println(myGlobalList);
+end

@@ -1,11 +1,9 @@
-package com.gpengtao.test;
+package com.gpengtao.main;
 
 import org.drools.decisiontable.InputType;
 import org.drools.decisiontable.SpreadsheetCompiler;
 
 /**
- * parse decision table
- * <p>
  * Created by pengtao.geng on 2016/9/6.
  */
 public class DecisionTableTest {

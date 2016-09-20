@@ -1,9 +1,9 @@
-package com.gpengtao.test;
+package com.gpengtao.main;
 
+import com.gpengtao.model.Message;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
 import org.kie.api.builder.KieFileSystem;
-import org.kie.api.builder.Message;
 import org.kie.api.builder.model.KieBaseModel;
 import org.kie.api.builder.model.KieModuleModel;
 import org.kie.api.io.KieResources;
@@ -30,18 +30,23 @@ public class MessageTest {
         System.out.println(xml);
         fileSystem.writeKModuleXML(xml);
 
-        fileSystem.write("src/main/resources/rules/rule.drl", resources.newClassPathResource("drlFile/hello.drl"));
+        fileSystem.write("src/main/resources/rules/hello.drl", resources.newClassPathResource("com/gpengtao/message/hello.drl"));
 
         KieBuilder kb = kieServices.newKieBuilder(fileSystem);
         kb.buildAll();
 
-        if (kb.getResults().hasMessages(Message.Level.ERROR)) {
+        if (kb.getResults().hasMessages(org.kie.api.builder.Message.Level.ERROR)) {
             throw new RuntimeException("Build Errors:\n" + kb.getResults().toString());
         }
 
         KieContainer kContainer = kieServices.newKieContainer(kieServices.getRepository().getDefaultReleaseId());
 
         KieSession kSession = kContainer.newKieSession("message-session");
+
+        Message message = new Message();
+        message.setStatus(Message.HELLO);
+        message.setMessage("hello");
+        kSession.insert(message);
 
         kSession.fireAllRules();
 
