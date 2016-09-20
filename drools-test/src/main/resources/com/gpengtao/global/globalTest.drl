@@ -8,6 +8,7 @@ rule "Test global"
     when
         eval(true)
     then
+        System.out.println("global： " + myGlobalList);
         myGlobalList.add("hello");
-        System.out.println(myGlobalList);
+        System.out.println("global： " + myGlobalList);
 end
