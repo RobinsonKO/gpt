@@ -1,5 +1,6 @@
-package com.gpengtao;
+package com.gpengtao.main;
 
+import com.gpengtao.model.Payment;
 import org.drools.template.model.*;
 import org.drools.template.model.Package;
 import org.kie.api.KieServices;
