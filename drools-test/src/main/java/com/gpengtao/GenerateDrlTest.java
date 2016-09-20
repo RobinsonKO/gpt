@@ -38,11 +38,16 @@ public class GenerateDrlTest {
         baseModel.newKieSessionModel("rule_111");
 
         KieBaseModel baseModel2 = kieModuleModel.newKieBaseModel("kie-base-rule222");
-        baseModel2.addPackage("com.gpengtao.file.drl2");
+        baseModel2.addPackage("package_222");
         baseModel2.newKieSessionModel("rule_222");
 
-        kieFileSystem.writeKModuleXML(kieModuleModel.toXML());
+
+        String moduleXml = kieModuleModel.toXML();
+        System.out.println(moduleXml);
+
+        kieFileSystem.writeKModuleXML(moduleXml);
         kieFileSystem.write("src/main/resources/package_111/xxx.drl", ResourceFactory.newByteArrayResource(drl1.getBytes()));
+        kieFileSystem.write("src/main/resources/package_222/xxx.drl", ResourceFactory.newByteArrayResource(drl2.getBytes()));
 
         KieBuilder kieBuilder = services.newKieBuilder(kieFileSystem);
         kieBuilder.buildAll();
