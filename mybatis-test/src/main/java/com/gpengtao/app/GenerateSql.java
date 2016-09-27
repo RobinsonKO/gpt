@@ -1,4 +1,4 @@
-package org.gpengtao.gensql;
+package com.gpengtao.app;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -18,11 +18,11 @@ public class GenerateSql {
     public static void main(String[] args) throws SQLException {
 
         String url = "jdbc:mysql://10.86.36.215:3306/";
-        String username = "test_user";
-        String password = "Kq8kgeErQ5T9IDRnTcnJBg";
+        String username = "xx";
+        String password = "xx";
 
-        String dbName = "";
-        String tableName = "";
+        String dbName = "xx";
+        String tableName = "xx";
 
         final SingleConnectionDataSource dataSource = new SingleConnectionDataSource(url, username, password, false);
 

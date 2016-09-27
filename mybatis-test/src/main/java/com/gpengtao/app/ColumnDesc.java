@@ -1,4 +1,4 @@
-package org.gpengtao.gensql;
+package com.gpengtao.app;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
