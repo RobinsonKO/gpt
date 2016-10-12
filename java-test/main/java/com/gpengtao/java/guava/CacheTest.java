@@ -20,8 +20,8 @@ public class CacheTest {
                 .build(new CacheLoader<String, String>() {
                     @Override
                     public String load(String key) throws Exception {
-                        return null;
-//                        throw new RuntimeException("xxx");
+//                        return null;
+                        throw new RuntimeException("xxx");
                     }
                 });
 
@@ -29,10 +29,10 @@ public class CacheTest {
         try {
             result = cache.get("hello");
         } catch (ExecutionException e) {
-            System.out.println("execute error" + e);
+            System.out.println("ExecutionException error" + e);
             e.printStackTrace();
         } catch (Throwable t) {
-            System.out.println("error:" + t);
+            System.out.println("Throwable error:" + t);
             t.printStackTrace();
         }
 
