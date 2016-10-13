@@ -1,41 +1,34 @@
 package com.gpengtao.java.guava;
 
+import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by pengtao.geng on 2016/10/12.
+ * Created by pengtao.geng on 2016/10/13.
  */
 public class CacheTest {
 
-    public static void main(String[] args) {
-        LoadingCache<String, String> cache = CacheBuilder
-                .newBuilder()
-                .expireAfterWrite(24, TimeUnit.HOURS)
-                .maximumSize(5000)
-                .build(new CacheLoader<String, String>() {
-                    @Override
-                    public String load(String key) throws Exception {
-//                        return null;
-                        throw new RuntimeException("xxx");
-                    }
-                });
+    public static void main(String[] args) throws InterruptedException {
+        Cache<String, String> cache = CacheBuilder.newBuilder()
+                .maximumSize(3)
+                .expireAfterWrite(3, TimeUnit.SECONDS)
+                .build();
 
-        String result = null;
-        try {
-            result = cache.get("hello");
-        } catch (ExecutionException e) {
-            System.out.println("ExecutionException error" + e);
-            e.printStackTrace();
-        } catch (Throwable t) {
-            System.out.println("Throwable error:" + t);
-            t.printStackTrace();
-        }
 
-        System.out.println(result);
+        cache.put("1", "1");
+        cache.put("2", "2");
+        cache.put("3", "3");
+        cache.put("4", "3");
+
+        String s1 = cache.getIfPresent("2");
+        System.out.println(s1);
+
+        Thread.sleep(3000);
+
+        String s2 = cache.getIfPresent("2");
+        System.out.println(s2);
+
     }
 }
