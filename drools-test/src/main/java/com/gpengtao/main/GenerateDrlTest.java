@@ -30,18 +30,18 @@ public class GenerateDrlTest {
 
         KieServices services = KieServices.Factory.get();
 
+        // moduleModel 和 fileSystem是单独的对象，这里只是new出来，实际和services没关联
         KieModuleModel kieModuleModel = services.newKieModuleModel();
         KieFileSystem kieFileSystem = services.newKieFileSystem();
 
         // 一个container下多个modelModel，这个new多个就可以
         KieBaseModel baseModel = kieModuleModel.newKieBaseModel("kie-base-rule111");
-        baseModel.addPackage("package_111");
+        baseModel.addPackage("package_111");// 决定了资源文件的目录，即 src/main/resources/package_111
         baseModel.newKieSessionModel("rule_111");
 
         KieBaseModel baseModel2 = kieModuleModel.newKieBaseModel("kie-base-rule222");
         baseModel2.addPackage("package_222");
         baseModel2.newKieSessionModel("rule_222");
-
 
         String moduleXml = kieModuleModel.toXML();
         System.out.println(moduleXml);
@@ -111,7 +111,7 @@ public class GenerateDrlTest {
         add.setSnippet("model.setMoney(model.getMoney() + 100);");
 
         Consequence print = new Consequence();
-        print.setSnippet("System.out.println(\"hello rule 111 \" + model);");
+        print.setSnippet("System.out.println(\"hello rule 111 \" + model);");// 分号不能少
 
         // rule1
         Rule rule1 = new Rule("rule_1", 1, 0);
