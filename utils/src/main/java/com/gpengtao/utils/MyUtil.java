@@ -16,7 +16,7 @@ public class MyUtil {
 
     private static final Joiner TAB_JOINER = Joiner.on("\t");
 
-    public static String joinFieldValuesWithNewline(Object object) {
+    public static String joinFieldValuesWithTab(Object object) {
         if (object instanceof Iterable) {
             return COMMA_JOINER.join((Iterable) object);
         }
@@ -30,7 +30,7 @@ public class MyUtil {
                 try {
                     Object value = field.get(object);
                     if (value instanceof Iterable) {
-                        result.add(joinFieldValuesWithNewline(value));
+                        result.add(joinFieldValuesWithTab(value));
                     } else {
                         result.add(value);
                     }
@@ -46,9 +46,5 @@ public class MyUtil {
             }
         }
         return TAB_JOINER.join(result) + "\r\n";
-    }
-
-    public static void main(String[] args) {
-
     }
 }
