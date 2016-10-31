@@ -1,0 +1,170 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>gpengtaoq.common</groupId>
+    <artifactId>gpengtaoq-suprule</artifactId>
+    <version>1.0.2</version>
+
+    <packaging>pom</packaging>
+
+    <name>gpengtaoq Super Rule</name>
+    <description>gpengtaoq 通用超级rule</description>
+
+    <properties>
+        <gpengtaoq.nexus.releases>http://nexus.corp.gpengtaoq.com/nexus/content/repositories/releases</gpengtaoq.nexus.releases>
+        <gpengtaoq.nexus.snapshots>http://nexus.corp.gpengtaoq.com/nexus/content/repositories/snapshots</gpengtaoq.nexus.snapshots>
+        <maven-enforcer-plugin_version>1.3.1</maven-enforcer-plugin_version>
+        <enforcer-custom-rules_version>RELEASE</enforcer-custom-rules_version>
+        <extra-enforcer-rules_version>1.0-beta-3</extra-enforcer-rules_version>
+        <checkDeployRelease_skip>false</checkDeployRelease_skip>
+
+        <gcm-maven-plugin_version>1.0.0</gcm-maven-plugin_version>
+        <mvn_version.update_pattern>0.0.*</mvn_version.update_pattern>
+    </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>gpengtaoq Nexus Releases</name>
+            <url>${gpengtaoq.nexus.releases}</url>
+        </repository>
+        <snapshotRepository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>snapshots</id>
+            <name>gpengtaoq Nexus Snapshots</name>
+            <url>${gpengtaoq.nexus.snapshots}</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${maven-enforcer-plugin_version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.gpengtaoq.ams.maven.enforcer</groupId>
+                            <artifactId>enforcer-custom-rules</artifactId>
+                            <version>${enforcer-custom-rules_version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>extra-enforcer-rules</artifactId>
+                            <version>${extra-enforcer-rules_version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <plugin>
+                    <groupId>com.gpengtaoq.cm</groupId>
+                    <artifactId>gcm-maven-plugin</artifactId>
+                    <version>${gcm-maven-plugin_version}</version>
+                    <executions>
+                        <execution>
+                            <id>generateDeployInfo</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>generateDeployInfo</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>com.gpengtaoq.cm</groupId>
+                <artifactId>gcm-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>gpengtaoq Check</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <rules>
+                        <bannedDependencies>
+                            <searchTransitive>true</searchTransitive>
+                            <excludes>
+                                <exclude>commons-logging</exclude>
+                                <exclude>org.slf4j:*:(,1.6)</exclude>
+                            </excludes>
+                        </bannedDependencies>
+
+                        <evaluateBeanshell>
+                            <condition>print("[INFO] [gpengtaoq Enforcer Rules] super-pom ");1==1</condition>
+                        </evaluateBeanshell>
+
+                        <requireGroupId implementation="com.gpengtaoq.maven.enforcer.rule.requireGroupId">
+                            <shouldIskip>false</shouldIskip>
+                        </requireGroupId>
+
+                        <requireVersion implementation="com.gpengtaoq.maven.enforcer.rule.RequireVersion">
+                            <shouldIskip>false</shouldIskip>
+                        </requireVersion>
+
+                        <RequireSameVersion implementation="com.gpengtaoq.maven.enforcer.rule.RequireSameVersion">
+                            <shouldIskip>false</shouldIskip>
+                        </RequireSameVersion>
+
+                        <requireDistributionManagement
+                                implementation="com.gpengtaoq.maven.enforcer.rule.requireDistributionManagement">
+                            <shouldIskip>false</shouldIskip>
+                            <repositoryId>releases</repositoryId>
+                            <snapshotRepositoryId>snapshots</snapshotRepositoryId>
+                        </requireDistributionManagement>
+
+                        <requirePlugins implementation="com.gpengtaoq.maven.enforcer.rule.requirePlugins">
+                            <shouldIskip>false</shouldIskip>
+                            <artifactIds>
+                                <artifactId>maven-source-plugin</artifactId>
+                            </artifactIds>
+                        </requirePlugins>
+
+                        <checkDeployRelease implementation="com.gpengtaoq.maven.enforcer.rule.checkDeployRelease">
+                            <shouldIskip>${checkDeployRelease_skip}</shouldIskip>
+                        </checkDeployRelease>
+
+                        <banDuplicateClasses>
+                            <findAllDuplicates>true</findAllDuplicates>
+                            <ignoreClasses>
+                                <ignoreClass>junit.*</ignoreClass>
+                                <ignoreClass>org.junit.*</ignoreClass>
+                                <ignoreClass>org.w3c.dom.*</ignoreClass>
+                                <ignoreClass>javax.xml.namespace.*</ignoreClass>
+                                <ignoreClass>org.apache.axis2.*</ignoreClass>
+                                <ignoreClass>*.package-info</ignoreClass>
+                            </ignoreClasses>
+                            <scopes>
+                                <scope>compile</scope>
+                                <scope>runtime</scope>
+                                <scope>provided</scope>
+                            </scopes>
+                            <message>[ERROR] [gpengtaoq Enforcer Rules] find DuplicateClasses</message>
+                        </banDuplicateClasses>
+
+                        <DependencyConvergence/>
+
+                        <CustomDependencyRules implementation="com.gpengtaoq.maven.enforcer.rule.CustomDependencyRules">
+                            <shouldIskip>false</shouldIskip>
+                        </CustomDependencyRules>
+                    </rules>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
