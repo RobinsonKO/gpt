@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by pengtao.geng on 2016/10/27.
  */
-public class MyTest {
+public class ListTest {
 
     @Test
     public void retain() {
