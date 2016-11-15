@@ -1,0 +1,14 @@
+package com.gpentao.applicant;
+
+dialect  "java"
+
+import com.gpengtao.example.model.Applicant;
+
+rule "Is of valid age"
+when
+    $a : Applicant( age > 18 )
+then
+    $a.setValidAge( true );
+    System.out.println("valid");
+end
+
