@@ -2,9 +2,10 @@ package com.gpentao.applicant;
 
 dialect  "java"
 
-import com.gpengtao.example.model.Applicant;
+import com.gpengtao.example.stateless.model.Applicant;
 
 rule "Is of valid age"
+enabled true
 when
     $a : Applicant( age > 18 )
 then
