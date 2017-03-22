@@ -1,16 +1,17 @@
 package com.gpengtao.java.interview;
 
-import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * Created by pengtao.geng on 2017/3/15.
  */
-public class PrintNumTest {
+public class AlternatelyPrintNumTest {
 
     public static void main(String[] args) throws InterruptedException {
 
-        SynchronousQueue<Integer> queueA = new SynchronousQueue<>();
-        SynchronousQueue<Integer> queueB = new SynchronousQueue<>();
+        BlockingQueue<Integer> queueA = new LinkedBlockingDeque<>();
+        BlockingQueue<Integer> queueB = new LinkedBlockingDeque<>();
 
         new Thread("thread_A") {
             @Override
@@ -18,12 +19,11 @@ public class PrintNumTest {
                 try {
                     System.out.println(getName() + " start running ...");
                     while (true) {
-                        System.out.println(getName() + " take ...");
                         Integer num = queueA.take();
-                        if (num + 1 <= 10) {
-                            System.out.println(getName() + " >>>> " + num);
-                            queueB.put(num + 1);
-                        } else {
+
+                        System.out.println(getName() + " >>>> " + num);
+                        queueB.put(num + 1);
+                        if (num + 1 >= 10) {
                             break;
                         }
                     }
@@ -40,14 +40,12 @@ public class PrintNumTest {
                 try {
                     System.out.println(getName() + " start running ...");
                     while (true) {
-                        System.out.println(getName() + " take ...");
                         Integer num = queueB.take();
-                        if (num <= 10) {
 
-                            System.out.println(getName() + " <<<< " + num);
+                        System.out.println(getName() + " <<<< " + num);
+                        queueA.put(num + 1);
 
-                            queueA.put(num + 1);
-                        } else {
+                        if (num + 1 >= 10) {
                             break;
                         }
                     }

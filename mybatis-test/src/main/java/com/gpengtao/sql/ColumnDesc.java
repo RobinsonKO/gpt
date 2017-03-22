@@ -1,4 +1,4 @@
-package com.gpengtao.app;
+package com.gpengtao.sql;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -8,9 +8,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class ColumnDesc {
 
-    private String Field;
+    private String field;
 
-    private String Type;
+    private String type;
 
     private String Null;
 
@@ -21,19 +21,19 @@ public class ColumnDesc {
     private String Extra;
 
     public String getField() {
-        return Field;
+        return field;
     }
 
     public void setField(String field) {
-        Field = field;
+        this.field = field;
     }
 
     public String getType() {
-        return Type;
+        return type;
     }
 
     public void setType(String type) {
-        Type = type;
+        this.type = type;
     }
 
     public String getNull() {

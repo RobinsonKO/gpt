@@ -1,4 +1,4 @@
-package com.gpengtao.app;
+package com.gpengtao.sql;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by gpengtao on 15/10/18.
  */
-public class GenerateSql {
+public class GenerateSqlMain {
 
     public static void main(String[] args) throws SQLException {
 
