@@ -24,6 +24,7 @@
         <module>drools-test</module>
         <module>stm-test</module>
         <module>security-test</module>
+        <module>other</module>
     </modules>
 
     <name>gpt-learn</name>
