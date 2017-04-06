@@ -17,7 +17,7 @@ public class GenerateSqlMain {
 
     public static void main(String[] args) throws SQLException {
 
-        String url = "jdbc:mysql://10.86.36.215:3306/";
+        String url = "jdbc:mysql://xx:3306/";
         String username = "xx";
         String password = "xx";
 
@@ -34,20 +34,30 @@ public class GenerateSqlMain {
                 ColumnDesc columnDesc = new ColumnDesc();
                 columnDesc.setField(resultSet.getString("Field"));
                 columnDesc.setType(resultSet.getString("Type"));
-                columnDesc.setNull(resultSet.getString("Null"));
+                columnDesc.setCanNull(resultSet.getString("Null"));
                 columnDesc.setKey(resultSet.getString("Key"));
-                columnDesc.setDefault(resultSet.getString("Default"));
+                columnDesc.setDefaultValue(resultSet.getString("Default"));
                 columnDesc.setExtra(resultSet.getString("Extra"));
                 return columnDesc;
             }
         });
 
-        select(columnDescList, tableName);
+        printInsertSql(columnDescList, tableName);
 
-        showSelectSql(columnDescList);
+        printSelectSql(columnDescList);
+
+        printModelFields(columnDescList);
     }
 
-    private static void showSelectSql(List<ColumnDesc> columnDescList) {
+    private static void printModelFields(List<ColumnDesc> columnDescList) {
+        for (ColumnDesc columnDesc : columnDescList) {
+            String javaType = TypeMappings.findJaveType(columnDesc.getType());
+            String propertyName = getJavaPropertyName(columnDesc.getField());
+            System.out.println("private " + javaType + " " + propertyName + ";");
+        }
+    }
+
+    private static void printSelectSql(List<ColumnDesc> columnDescList) {
         List<String> show = Lists.newArrayList();
         for (ColumnDesc column : columnDescList) {
             if (column.getField().contains("_")) {
@@ -58,9 +68,10 @@ public class GenerateSqlMain {
         }
 
         System.out.println(Joiner.on(",\r\n").join(show));
+        System.out.println();
     }
 
-    private static void select(List<ColumnDesc> columnDescList, String tbaleName) {
+    private static void printInsertSql(List<ColumnDesc> columnDescList, String tbaleName) {
         List<String> nameList = Lists.newArrayList();
         List<String> propertyNameList = Lists.newArrayList();
         for (ColumnDesc desc : columnDescList) {
@@ -74,8 +85,8 @@ public class GenerateSqlMain {
         }
 
         nameList = addTab(nameList);
-        List<String> propertyNameListItem = addKuohaoItem(propertyNameList);
-        propertyNameList = addKuohao(propertyNameList);
+        List<String> propertyNameListItem = addBracketItem(propertyNameList);
+        propertyNameList = addBracket(propertyNameList);
         propertyNameList = addTab(propertyNameList);
         propertyNameListItem = addTab(propertyNameListItem);
 
@@ -96,7 +107,7 @@ public class GenerateSqlMain {
         System.out.println(show2);
     }
 
-    private static List<String> addKuohaoItem(List<String> nameList) {
+    private static List<String> addBracketItem(List<String> nameList) {
         List<String> result = Lists.newArrayList();
         for (String name : nameList) {
             result.add("#{item." + name + "}");
@@ -104,7 +115,7 @@ public class GenerateSqlMain {
         return result;
     }
 
-    private static List<String> addKuohao(List<String> nameList) {
+    private static List<String> addBracket(List<String> nameList) {
         List<String> result = Lists.newArrayList();
         for (String name : nameList) {
             result.add("#{" + name + "}");

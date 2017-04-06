@@ -12,13 +12,13 @@ public class ColumnDesc {
 
     private String type;
 
-    private String Null;
+    private String canNull;
 
-    private String Key;
+    private String key;
 
-    private String Default;
+    private String defaultValue;
 
-    private String Extra;
+    private String extra;
 
     public String getField() {
         return field;
@@ -36,36 +36,36 @@ public class ColumnDesc {
         this.type = type;
     }
 
-    public String getNull() {
-        return Null;
+    public String getCanNull() {
+        return canNull;
     }
 
-    public void setNull(String aNull) {
-        Null = aNull;
+    public void setCanNull(String canNull) {
+        this.canNull = canNull;
     }
 
     public String getKey() {
-        return Key;
+        return key;
     }
 
     public void setKey(String key) {
-        Key = key;
+        this.key = key;
     }
 
-    public String getDefault() {
-        return Default;
+    public String getDefaultValue() {
+        return defaultValue;
     }
 
-    public void setDefault(String aDefault) {
-        Default = aDefault;
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
     }
 
     public String getExtra() {
-        return Extra;
+        return extra;
     }
 
     public void setExtra(String extra) {
-        Extra = extra;
+        this.extra = extra;
     }
 
     @Override
