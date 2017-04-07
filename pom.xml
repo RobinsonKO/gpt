@@ -27,7 +27,7 @@
         <module>other</module>
     </modules>
 
-    <name>gpt-learn</name>
+    <name>gpt</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
