@@ -3,7 +3,7 @@ package com.gpengtao.java.sort;
 /**
  * Created by pengtao.geng on 2016/10/26.
  */
-public class MainTest_QuickSort {
+public class QuickSort_MainTest {
 
     public static void main(String[] args) {
 
