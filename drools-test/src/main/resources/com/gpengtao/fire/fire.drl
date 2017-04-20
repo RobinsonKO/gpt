@@ -1,0 +1,66 @@
+package com.gpentao.test;
+
+import com.gpengtao.example.statefull.model.Room;
+import com.gpengtao.example.statefull.model.Fire;
+import com.gpengtao.example.statefull.model.Sprinkler;
+import com.gpengtao.example.statefull.model.Alarm;
+
+rule "RaiseAlarm"
+when
+     exists Fire()
+then
+    insert( new Alarm( "我的大房子" ) );
+    System.out.println( "报警了");
+end
+
+rule "CancelAlarm"
+when
+    not Fire()
+    a : Alarm()
+then
+    delete( a );
+    System.out.println( "报警取消");
+end
+
+rule "ThereIsAnAlarm"
+when
+     Alarm()
+then
+    System.out.println( "there is an 报警" );
+end
+
+rule "ThereIsNoAlarm" when
+     not Alarm()
+then
+    System.out.println( "there is no 报警" );
+end
+
+
+rule "TurnSprinklerOn"
+when
+    sprinkler : Sprinkler( on == false )
+    fire : Fire( room == sprinkler.room )
+then
+    modify( sprinkler ) { setOn( true ) }
+    System.out.println( "打开 sprinkler for room： " + fire.getRoom().getName() );
+end
+
+rule "TurnSprinklerOff"
+when
+    sprinkler : Sprinkler( on == true )
+    not Fire( room == sprinkler.room )
+then
+    modify( sprinkler ) { setOn( false ) }
+    System.out.println( "关闭 sprinkler for room： " + sprinkler.getRoom().getName() );
+end
+
+rule "OK"
+when
+    not Alarm()
+    not Sprinkler( on == true )
+then
+    System.out.println( "Everything is ok" );
+end
+
+
+

@@ -1,0 +1,21 @@
+package com.company.license
+
+import com.gpengtao.example.stateless.model.Applicant;
+import com.gpengtao.example.stateless.model.Application;
+
+rule "Is of valid age"
+when
+    Applicant( age > 18 )
+    $a : Application()
+then
+    $a.setAgeValid( true );
+    System.out.println($a + " is valid");
+end
+
+rule "Application was made this year"
+when
+    $a : Application( applyDate > "01-jan-2009" )
+then
+    $a.setApplyDateValid( true );
+    System.out.println($a + " is valid");
+end

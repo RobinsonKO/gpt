@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule">
+
+    <kbase name="test-rules" packages="com.gpengtao.global">
+        <ksession name="ksession-global-test-rules"/>
+    </kbase>
+
+    <kbase name="applicant-rules-base" packages="com.gpengtao.applicant">
+        <ksession name="applicant-rules" default="true" type="stateless"/>
+    </kbase>
+
+    <kbase name="applicant-rules-base2" packages="com.gpengtao.applicant">
+        <ksession name="applicant-rules2" type="stateless"/>
+    </kbase>
+
+    <kbase name="application-rules-base" packages="com.gpengtao.applicant">
+        <ksession name="application-rules" type="stateless"/>
+    </kbase>
+
+    <!--火灾例子,默认是stateFull的-->
+    <kbase name="fire-rules-base" packages="com.gpengtao.fire">
+        <ksession name="fire-rules"/>
+    </kbase>
+
+</kmodule>
