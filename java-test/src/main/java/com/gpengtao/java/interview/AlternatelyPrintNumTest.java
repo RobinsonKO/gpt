@@ -4,6 +4,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
 /**
+ * 两个交替打印数字
+ * <p>
  * Created by pengtao.geng on 2017/3/15.
  */
 public class AlternatelyPrintNumTest {
