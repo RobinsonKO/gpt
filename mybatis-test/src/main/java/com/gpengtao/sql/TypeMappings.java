@@ -18,11 +18,14 @@ public class TypeMappings {
         if (sqlType.contains("timestamp")) {
             return "Date";
         }
-        if (sqlType.startsWith("int")){
+        if (sqlType.startsWith("int")) {
             return "int";
         }
-        if (sqlType.startsWith("decimal")){
+        if (sqlType.startsWith("decimal")) {
             return "BigDecimal";
+        }
+        if (sqlType.startsWith("smallint")) {
+            return "int";
         }
 
         throw new RuntimeException("不支持映射sqlType: " + sqlType);

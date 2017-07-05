@@ -3,43 +3,50 @@ package com.gpengtao.sql;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
-import java.sql.ResultSet;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by gpengtao on 15/10/18.
  */
 public class GenerateSqlMain {
 
-    public static void main(String[] args) throws SQLException {
+    /**
+     * 复制resource目录里面的db.properties到target目录，修改配置
+     *
+     * @param args
+     * @throws SQLException
+     * @throws IOException
+     */
+    public static void main(String[] args) throws SQLException, IOException {
+        Properties properties = new Properties();
+        properties.load(new FileInputStream("mybatis-test/target/db.properties"));
 
-        String url = "jdbc:mysql://xx:3306/";
-        String username = "xx";
-        String password = "xx";
+        System.out.println("数据配置信息：" + properties);
 
-        String dbName = "xx";
-        String tableName = "xx";
+        String url = properties.getProperty("jdbc_url");
+        String username = properties.getProperty("jdbc_username");
+        String password = properties.getProperty("jdbc_password");
+
+        String tableName = properties.getProperty("jdbc_table_name");
 
         final SingleConnectionDataSource dataSource = new SingleConnectionDataSource(url, username, password, false);
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        jdbcTemplate.execute("use " + dbName);
-        List<ColumnDesc> columnDescList = jdbcTemplate.query("DESC " + tableName, new RowMapper<ColumnDesc>() {
-            @Override
-            public ColumnDesc mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-                ColumnDesc columnDesc = new ColumnDesc();
-                columnDesc.setField(resultSet.getString("Field"));
-                columnDesc.setType(resultSet.getString("Type"));
-                columnDesc.setCanNull(resultSet.getString("Null"));
-                columnDesc.setKey(resultSet.getString("Key"));
-                columnDesc.setDefaultValue(resultSet.getString("Default"));
-                columnDesc.setExtra(resultSet.getString("Extra"));
-                return columnDesc;
-            }
+        List<ColumnDesc> columnDescList = jdbcTemplate.query("DESC " + tableName, (resultSet, rowNum) -> {
+            ColumnDesc columnDesc = new ColumnDesc();
+            columnDesc.setField(resultSet.getString("Field"));
+            columnDesc.setType(resultSet.getString("Type"));
+            columnDesc.setCanNull(resultSet.getString("Null"));
+            columnDesc.setKey(resultSet.getString("Key"));
+            columnDesc.setDefaultValue(resultSet.getString("Default"));
+            columnDesc.setExtra(resultSet.getString("Extra"));
+            return columnDesc;
         });
 
         printInsertSql(columnDescList, tableName);
