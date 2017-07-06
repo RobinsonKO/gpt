@@ -27,6 +27,9 @@ public class TypeMappings {
         if (sqlType.startsWith("smallint")) {
             return "int";
         }
+        if (sqlType.startsWith("text")){
+            return "String";
+        }
 
         throw new RuntimeException("不支持映射sqlType: " + sqlType);
     }
