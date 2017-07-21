@@ -2,7 +2,9 @@ package com.gpengtao.sql;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
-import org.springframework.jdbc.core.JdbcTemplate;
+import com.gpengtao.sql.model.ColumnDesc;
+import com.gpengtao.sql.util.TableInfoUtil;
+import com.gpengtao.sql.util.TypeMappings;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
 import java.io.FileInputStream;
@@ -32,22 +34,11 @@ public class GenerateSqlMain {
         String url = properties.getProperty("jdbc_url");
         String username = properties.getProperty("jdbc_username");
         String password = properties.getProperty("jdbc_password");
-
         String tableName = properties.getProperty("jdbc_table_name");
 
-        final SingleConnectionDataSource dataSource = new SingleConnectionDataSource(url, username, password, false);
+        SingleConnectionDataSource dataSource = new SingleConnectionDataSource(url, username, password, false);
 
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        List<ColumnDesc> columnDescList = jdbcTemplate.query("DESC " + tableName, (resultSet, rowNum) -> {
-            ColumnDesc columnDesc = new ColumnDesc();
-            columnDesc.setField(resultSet.getString("Field"));
-            columnDesc.setType(resultSet.getString("Type"));
-            columnDesc.setCanNull(resultSet.getString("Null"));
-            columnDesc.setKey(resultSet.getString("Key"));
-            columnDesc.setDefaultValue(resultSet.getString("Default"));
-            columnDesc.setExtra(resultSet.getString("Extra"));
-            return columnDesc;
-        });
+        List<ColumnDesc> columnDescList = TableInfoUtil.findTableColumnInfo(dataSource, tableName);
 
         printInsertSql(columnDescList, tableName);
 

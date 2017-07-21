@@ -1,4 +1,4 @@
-package com.gpengtao.sql;
+package com.gpengtao.sql.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -19,6 +19,8 @@ public class ColumnDesc {
     private String defaultValue;
 
     private String extra;
+
+    private String comment;
 
     public String getField() {
         return field;
@@ -66,6 +68,14 @@ public class ColumnDesc {
 
     public void setExtra(String extra) {
         this.extra = extra;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     @Override

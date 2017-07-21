@@ -1,4 +1,8 @@
-package com.gpengtao.sql;
+package com.gpengtao.sql.util;
+
+import com.google.common.collect.Lists;
+
+import java.util.List;
 
 /**
  * Created by pengtao.geng on 2017/3/15.
@@ -33,4 +37,5 @@ public class TypeMappings {
 
         throw new RuntimeException("不支持映射sqlType: " + sqlType);
     }
+
 }
